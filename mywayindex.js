@@ -7,7 +7,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     http = require('http'),
     path = require('path'),
-    // addReportModel = require('./models/add-report'),
+    addReportModel = require('./models/add-report'),
     addReportRoute = require('./routes/add-report')
 
 var app = express();
