@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var AddReportSchema = new Schema({
-    ownerUserId: String,
+    userName: String,
     dateTimeFrom: { type: Date, default: Date.now },
     addReportType:[{
         steps: Boolean,
