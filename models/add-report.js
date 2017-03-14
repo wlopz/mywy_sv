@@ -4,16 +4,16 @@ var Schema = mongoose.Schema;
 var AddReportSchema = new Schema({
     userName: String,
     dateTimeFrom: { type: Date, default: Date.now },
-    addReportType:[{
-        steps: Boolean,
-        stairway: Boolean,
-        elevator: Boolean,
-        escalator: Boolean,
-        ramp: Boolean,
-        rails: Boolean,
-        other: Boolean,
-        hazard: Boolean
-    }],
+    // addReportType:[{
+    //     steps: Boolean,
+    //     stairway: Boolean,
+    //     elevator: Boolean,
+    //     escalator: Boolean,
+    //     ramp: Boolean,
+    //     rails: Boolean,
+    //     other: Boolean,
+    //     hazard: Boolean
+    // }],
     addReportSubject: String,
     addReportDescription: String,
 

@@ -5,6 +5,8 @@
 
 var express = require('express'),
     mongoose = require('mongoose'),
+    bodyParser = require('body-parser'),
+    methodOverride = require('method-override'),
     http = require('http'),
     path = require('path'),
     addReportModel = require('./models/add-report'),
@@ -12,18 +14,24 @@ var express = require('express'),
 
 var app = express();
 
-app.configure(function(){
-    app.set('port', process.env.PORT || 3000);
-    app.use(express.favicon());
-    app.use(express.logger('dev'));
-    app.use(express.bodyParser());
-    app.use(express.methodOverride());
-    app.use(app.router);
-});
 
-app.configure('development', function(){
-    app.use(express.errorHandler());
-});
+    app.set('port', process.env.PORT || 3000);
+    // app.use(express.favicon());
+    // app.use(express.logger('dev'));
+    // app.use(express.bodyParser());
+    // app.use(express.methodOverride());
+    // app.use(app.router);
+
+    // parse application/json
+    app.use(bodyParser.json());                        
+
+    // parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// app.configure('development', function(){
+//     app.use(express.errorHandler());
+// });
 
 var uriString =
     process.env.MONGOLAB_URI ||
