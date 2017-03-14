@@ -26,4 +26,8 @@
     "node-uuid": "^1.4.1",
     "pbkdf2": "^3.0.9"
   }
+
+  "scripts":{
+        "start": "node mywayindex.js"
+    }
 }
