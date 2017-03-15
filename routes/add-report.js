@@ -23,14 +23,14 @@ exports.findById = function(req,res){
 };
 
 exports.newAddReport = function(req,res){
-    var emp = new AddReport(req.body);
+    var rep = new AddReport(req.body);
 
-    emp.save(function(err){
+    rep.save(function(err){
         if (err) {
             res.send('Error occurred');
             return console.log(err);
         }
-        res.send(emp);
+        res.send(rep);
     });
 }
 
