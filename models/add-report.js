@@ -5,7 +5,7 @@ var AddReportSchema = new Schema({
     userName: String,
     dateTimeFrom: { type: Date, default: Date.now },
     addReportSubject: String,
-    addReportDescription: String,
+    addReportDescription: String
 
     // TODO: Add description field.
 });
