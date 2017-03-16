@@ -27,29 +27,24 @@ AddReportController.prototype.registerReport = function (newReport, callback) {
             return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.USERNAME_NOT_FOUND } }));
         } else {
 
-            newReport.save(function (err, rprt, numberAffected) {
+            newReport.save(function (err, rprt) {
 
                 if (err) {
                     return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.DB_ERROR } }));
                 }
 
-                if (numberAffected === 1) {
+                var addReportInfoModel = new me.AddReportInfo({
+                    userName: rprt.userName,
+                    dateTimePosted: rprt.dateTimePosted,
+                    addReportSubject: rprt.addReportSubject,
+                    addReportDescription: rprt.addReportDescription
+                });
 
-                    var addReportInfoModel = new me.AddReportInfo({
-                        userName: rprt.userName,
-                        dateTimePosted: rprt.dateTimePosted,
-                        addReportSubject: rprt.addReportSubject,
-                        addReportDescription: rprt.addReportDescription
-                    });
-
-                    return callback(err, new me.ApiResponse({
-                        success: true, extras: {
-                            addReportInfoModel: addReportInfoModel
-                        }
-                    }));
-                } else {
-                    return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.COULD_NOT_CREATE_USER } }));
-                }
+                return callback(err, new me.ApiResponse({
+                    success: true, extras: {
+                        addReportInfoModel: addReportInfoModel
+                    }
+                }));
 
             });
         }
