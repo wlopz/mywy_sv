@@ -4,6 +4,7 @@ var AddReportController = function (addReportModel, report) {
     this.AddReportInfo = require('../models/add-report-info.js');
     this.addReportModel = addReportModel;
     this.report = report;
+    this.addReport = require('../models/add-report.js');
 };
 
 AddReportController.prototype.getSession = function () {
@@ -59,14 +60,14 @@ AddReportController.prototype.registerReport = function (newReport, callback) {
 AddReportController.prototype.getUserFromReport = function(userReportModel) {
     var me = this;
 
-    var newReport = new this.NewReport({
+    var addReport = new this.addReport({
         userName: userReportModel.userName,
         dateTimePosted: userReportModel.dateTimePosted,
         addReportSubject: userReportModel.addReportSubject,
         addReportDescription: userReportModel.addReportDescription
     });
 
-    return new me.ApiResponse({ success: true, extras: { newReport: newReport } });
+    return new me.ApiResponse({ success: true, extras: { addReport: addReport } });
 };
 
 module.exports = AddReportController;
