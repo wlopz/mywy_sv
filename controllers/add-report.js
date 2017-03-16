@@ -17,21 +17,7 @@ AddReportController.prototype.setSession = function (report) {
 
 AddReportController.prototype.registerReport = function (newReport, callback) {
     var me = this;
-    me.addReportModel.findOne({ userName: newReport.userName }, function (err, rprt) {
 
-        if (err) {
-            return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.DB_ERROR } }));
-        }
-
-        if (rprt) {
-            return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.USERNAME_NOT_FOUND } }));
-        } else {
-
-            newReport.save(function (err, rprt) {
-
-                if (err) {
-                    return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.DB_ERROR } }));
-                }
 
                 var addReportInfoModel = new me.AddReportInfo({
                     userName: rprt.userName,
@@ -46,10 +32,7 @@ AddReportController.prototype.registerReport = function (newReport, callback) {
                     }
                 }));
 
-            });
-        }
-
-    });
+            
 };
 
 AddReportController.prototype.getUserFromReport = function(userReportModel) {
