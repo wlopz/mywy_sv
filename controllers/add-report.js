@@ -15,9 +15,14 @@ AddReportController.prototype.setSession = function (report) {
     this.report = report;
 };
 
-AddReportController.prototype.registerReport = function (newReport, callback, rprt) {
+AddReportController.prototype.registerReport = function (newReport, callback) {
     var me = this;
 
+            newReport.save(function (err, rprt) {
+
+                if (err) {
+                    return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.DB_ERROR } }));
+                }
 
                 var addReportInfoModel = new me.AddReportInfo({
                     userName: rprt.userName,
@@ -32,7 +37,7 @@ AddReportController.prototype.registerReport = function (newReport, callback, rp
                     }
                 }));
 
-
+            });
 };
 
 AddReportController.prototype.getUserFromReport = function(userReportModel) {
