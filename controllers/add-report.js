@@ -1,42 +1,72 @@
-var AddReportController = function (addReportModel) {
+var AddReportController = function (addReportModel, report) {
     this.ApiResponse = require('../models/api-response.js');
     this.ApiMessages = require('../models/api-messages.js');
+    this.AddReportInfo = require('../models/add-report-info.js');
     this.addReportModel = addReportModel;
+    this.report = report;
 };
 
-AddReportController.prototype.getAddReport = function (userId, fromDate, reportType, reportSubject, reportDescription, callback) {
+AddReportController.prototype.getSession = function () {
+    return this.report;
+};
 
+AddReportController.prototype.setSession = function (report) {
+    this.report = report;
+};
+
+AddReportController.prototype.registerReport = function (newReport, callback) {
+    var me = this;
+    me.addReportModel.findOne({ userName: newReport.userName }, function (err, rprt) {
+
+        if (err) {
+            return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.DB_ERROR } }));
+        }
+
+        if (rprt) {
+            return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.EMAIL_ALREADY_EXISTS } }));
+        } else {
+
+            newReport.save(function (err, rprt, numberAffected) {
+
+                if (err) {
+                    return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.DB_ERROR } }));
+                }
+
+                if (numberAffected === 1) {
+
+                    var addReportInfoModel = new me.AddReportInfo({
+                        userName: rprt.userName,
+                        dateTimePosted: rprt.dateTimePosted,
+                        addReportSubject: rprt.addReportSubject,
+                        addReportDescription: rprt.addReportDescription
+                    });
+
+                    return callback(err, new me.ApiResponse({
+                        success: true, extras: {
+                            addReportInfoModel: addReportInfoModel
+                        }
+                    }));
+                } else {
+                    return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.COULD_NOT_CREATE_USER } }));
+                }
+
+            });
+        }
+
+    });
+};
+
+AddReportController.prototype.getUserFromReport = function(userReportModel) {
     var me = this;
 
-    var reportTypeCategories = ["Steps", "Stairway", "Elevator", "Escalator", "Ramp", "Rail(s)", "Other", "Hazard"];
+    var newReport = new this.NewReport({
+        userName: userReportModel.userName,
+        dateTimePosted: userReportModel.dateTimePosted,
+        addReportSubject: userReportModel.addReportSubject,
+        addReportDescription: userReportModel.addReportDescription
+    });
 
-    for(var i = 0; i < reportTypeCategories.length; i++) {
-        var rtc = reportTypeCategories[i];
-        // var el = document.createElement("option");
-        // el.textContent = opt;
-        // el.value = opt;
-        // select.appendChild(el);
-    }
-
-    // var query = {
-    //     ownerUserId: userId,
-    //     fromDate: { '$gte': fromDate },
-    //     toDate: { '$lt': toDate }
-    // };
-    //
-    // me.bookingModel.find(query)
-    //     .sort({
-    //         sortColumn: sortDir
-    //     })
-    //     .skip(pageSize * page)
-    //     .limit(pageSize)
-    //     .exec(function (err, bookings) {
-    //         if (err) {
-    //             return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.DB_ERROR } }));
-    //         }
-    //
-    //         return callback(err, new me.ApiResponse({success: true, extras: {bookings: bookings}}));
-    //     });
+    return new me.ApiResponse({ success: true, extras: { newReport: newReport } });
 };
 
 module.exports = AddReportController;

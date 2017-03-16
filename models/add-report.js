@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var AddReportSchema = new Schema({
     userName: String,
-    dateTimeFrom: { type: Date, default: Date.now },
+    dateTimePosted: { type: Date, default: Date.now },
     addReportSubject: String,
     addReportDescription: String
 

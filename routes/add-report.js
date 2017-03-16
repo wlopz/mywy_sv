@@ -1,7 +1,12 @@
 
 
 var mongoose = require('mongoose'),
-    AddReport = mongoose.model('NewReport')
+    AddReportController = require('../controllers/add-report.js'),
+    AddReportInfo = require('../models/add-report-info.js'),
+    User = require('../models/user.js'),
+    UserSession = require('../models/user-session.js'),
+    session = [],
+    AddReport = mongoose.model('NewReport');
 /**
  * Get AddReports Listing
  */
@@ -23,16 +28,39 @@ exports.findById = function(req,res){
 };
 
 exports.newAddReport = function(req,res){
-    var rep = new AddReport(req.body);
+    // var rep = new AddReport(req.body);
+    //
+    // rep.save(function(err){
+    //     if (err) {
+    //         res.send('Error occurred');
+    //         return console.log(err);
+    //     }
+    //     res.send(rep);
+    // });
 
-    rep.save(function(err){
-        if (err) {
-            res.send('Error occurred');
-            return console.log(err);
-        }
-        res.send(rep);
-    });
-}
+    var addReportController = new AddReportController(User, req.session, UserSession);
+
+    var addReportInfo = new AddReportInfo(req.body);
+
+    // If there's no form data, send a bad request code.
+    if (!addReportInfo.userName) {
+        res.status(400);
+        return res.send('');
+    }
+
+    var apiResponseStep1 = addReportController.getUserFromReport(userRegistration);
+
+    res.set("Access-Control-Allow-Origin", "http://localhost:42550");   // Enable CORS in dev environment.
+
+    if (apiResponseStep1.success) {
+        addReportController.registerReport(apiResponseStep1.extras.user, function (err, apiResponseStep2) {
+
+            return res.send(apiResponseStep2);
+        });
+    } else {
+        return res.send(apiResponseStep1);
+    }
+};
 
 exports.update = function(req,res){
     AddReport.findById( req.params.id, function( err, addReport ) {
