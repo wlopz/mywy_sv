@@ -3,7 +3,8 @@
 var mongoose = require('mongoose'),
     AddReportController = require('../controllers/add-report.js'),
     AddReportInfo = require('../models/add-report-info.js'),
-    User = require('../models/user.js'),
+    // User = require('../models/user.js'),
+    AddReport = require('../models/add-report.js'),
     UserSession = require('../models/user-session.js'),
     session = [],
     AddReport = mongoose.model('NewReport');
@@ -38,7 +39,7 @@ exports.newAddReport = function(req,res){
     //     res.send(rep);
     // });
 
-    var addReportController = new AddReportController(User, req.session, UserSession);
+    var addReportController = new AddReportController(AddReport, req.session, UserSession);
 
     var addReportInfo = new AddReportInfo(req.body);
 
@@ -53,7 +54,7 @@ exports.newAddReport = function(req,res){
     res.set("Access-Control-Allow-Origin", "http://localhost:42550");   // Enable CORS in dev environment.
 
     if (apiResponseStep1.success) {
-        addReportController.registerReport(apiResponseStep1.extras.user, function (err, apiResponseStep2) {
+        addReportController.registerReport(apiResponseStep1.extras.addReport, function (err, apiResponseStep2) {
 
             return res.send(apiResponseStep2);
         });
