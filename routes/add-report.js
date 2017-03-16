@@ -48,7 +48,7 @@ exports.newAddReport = function(req,res){
         return res.send('');
     }
 
-    var apiResponseStep1 = addReportController.getUserFromReport(userRegistration);
+    var apiResponseStep1 = addReportController.getUserFromReport(addReportInfo);
 
     res.set("Access-Control-Allow-Origin", "http://localhost:42550");   // Enable CORS in dev environment.
 
