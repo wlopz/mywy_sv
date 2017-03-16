@@ -15,7 +15,7 @@ AddReportController.prototype.setSession = function (report) {
     this.report = report;
 };
 
-AddReportController.prototype.registerReport = function (newReport, callback) {
+AddReportController.prototype.registerReport = function (newReport, callback, rprt) {
     var me = this;
 
 
@@ -32,7 +32,7 @@ AddReportController.prototype.registerReport = function (newReport, callback) {
                     }
                 }));
 
-            
+
 };
 
 AddReportController.prototype.getUserFromReport = function(userReportModel) {
