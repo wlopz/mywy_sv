@@ -6,8 +6,8 @@ var mongoose = require('mongoose'),
     // User = require('../models/user.js'),
     AddReport = require('../models/add-report.js'),
     UserSession = require('../models/user-session.js'),
-    session = [],
-    AddReport = mongoose.model('NewReport');
+    session = [];
+    // AddReport = mongoose.model('NewReport');
 /**
  * Get AddReports Listing
  */

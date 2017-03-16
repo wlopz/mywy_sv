@@ -24,7 +24,7 @@ AddReportController.prototype.registerReport = function (newReport, callback) {
         }
 
         if (rprt) {
-            return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.EMAIL_ALREADY_EXISTS } }));
+            return callback(err, new me.ApiResponse({ success: false, extras: { msg: me.ApiMessages.USERNAME_NOT_FOUND } }));
         } else {
 
             newReport.save(function (err, rprt, numberAffected) {
